@@ -1,0 +1,15 @@
+EAPS 227 Post-Analysis Results
+
+Time Frame: 
+Dataset Start (UTC): 2026-10-29 10:06:00+00:00
+Dataset End (UTC): 2026-10-29 16:17:00+00:00
+Total Dataset Duration: 0 days 06:11:00
+
+Hypothesis Test Results:
+Overall Paired T-statistic (Vapor Pressure): 11.6710
+Overall P-value: 2.9298e-28
+
+No Sun Period - T-stat: -5.1424, P-value: 4.8233e-07
+Early Period (Cloudy) - T-stat: -0.1685, P-value: 5.6680e-01
+Mid Period (Clear & Fixed) - T-stat: 16.8213, P-value: 2.6921e-28
+Late Period (Post-Move) - T-stat: 13.3602, P-value: 3.7517e-25
