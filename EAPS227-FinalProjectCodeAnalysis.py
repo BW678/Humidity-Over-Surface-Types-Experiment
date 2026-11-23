@@ -269,3 +269,64 @@ plt.title('Phase Space: Temperature vs. Vapor Pressure')
 plt.legend()
 plt.savefig('phase_space.png', dpi=300)
 
+
+## Min/Max Analysis (T and VP)
+periods = ['No Sun', 'Early (Cloudy)', 'Mid (Clear & Fixed)', 'Late (Post-Move)']
+dfs = [df_no_sun, df_early, df_mid, df_late]
+
+summary_data = []
+
+for name, df in zip(periods, dfs):
+    if len(df) > 0:
+        # Calculate vapor pressures for this period
+        vp_A = saturation_vapor_pressure(df['Dewpoint_Grass'].values * units.degC).to('hPa').magnitude
+        vp_B = saturation_vapor_pressure(df['Dewpoint_Concrete'].values * units.degC).to('hPa').magnitude
+        
+        summary_data.append({
+            'Period': name,
+            'Temp_Grass_Min': df['Temp_Grass'].min(),
+            'Temp_Grass_Max': df['Temp_Grass'].max(),
+            'Temp_Concrete_Min': df['Temp_Concrete'].min(),
+            'Temp_Concrete_Max': df['Temp_Concrete'].max(),
+            'VP_Grass_Min': vp_A.min(),
+            'VP_Grass_Max': vp_A.max(),
+            'VP_Concrete_Min': vp_B.min(),
+            'VP_Concrete_Max': vp_B.max(),
+        })
+
+summary_df = pd.DataFrame(summary_data)
+
+plt.figure(figsize=(10, 6))
+x_pos = np.arange(len(summary_df['Period']))
+width = 0.2
+
+plt.bar(x_pos - 1.5*width, summary_df['Temp_Grass_Max'], width, label='Grass Max Temp', color='orange', alpha=0.9)
+plt.bar(x_pos - 0.5*width, summary_df['Temp_Grass_Min'], width, label='Grass Min Temp', color='orange', alpha=0.4)
+plt.bar(x_pos + 0.5*width, summary_df['Temp_Concrete_Max'], width, label='Concrete Max Temp', color='purple', alpha=0.9)
+plt.bar(x_pos + 1.5*width, summary_df['Temp_Concrete_Min'], width, label='Concrete Min Temp', color='purple', alpha=0.4)
+
+plt.xlabel('Time Period')
+plt.ylabel('Temperature (°C)')
+plt.title('Min and Max Temperature by Period (Grass vs. Concrete)')
+plt.xticks(x_pos, summary_df['Period'], rotation=15)
+plt.legend()
+plt.tight_layout()
+plt.savefig('min_max_temperature_periods.png', dpi=300)
+plt.close()
+
+plt.figure(figsize=(10, 6))
+
+plt.bar(x_pos - 1.5*width, summary_df['VP_Grass_Max'], width, label='Grass Max VP', color='blue', alpha=0.9)
+plt.bar(x_pos - 0.5*width, summary_df['VP_Grass_Min'], width, label='Grass Min VP', color='blue', alpha=0.4)
+plt.bar(x_pos + 0.5*width, summary_df['VP_Concrete_Max'], width, label='Concrete Max VP', color='red', alpha=0.9)
+plt.bar(x_pos + 1.5*width, summary_df['VP_Concrete_Min'], width, label='Concrete Min VP', color='red', alpha=0.4)
+
+plt.xlabel('Time Period')
+plt.ylabel('Vapor Pressure (hPa)')
+plt.title('Min and Max Vapor Pressure by Period (Grass vs. Concrete)')
+plt.xticks(x_pos, summary_df['Period'], rotation=15)
+plt.legend()
+plt.tight_layout()
+plt.savefig('min_max_vapor_pressure_periods.png', dpi=300)
+plt.close()
+
