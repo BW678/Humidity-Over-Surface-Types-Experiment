@@ -5,6 +5,20 @@ Dataset Start (UTC): 2026-10-29 10:06:00+00:00
 Dataset End (UTC): 2026-10-29 16:17:00+00:00
 Total Dataset Duration: 0 days 06:11:00
 
+Period Averages (Temperature & Vapor Pressure):
+1. No Sun Period:
+   - Grass Mean Temp: 15.32 °C, Mean Vapor Pressure: 12.05 hPa
+   - Concrete Mean Temp: 15.98 °C, Mean Vapor Pressure: 12.10 hPa
+2. Early Period (Cloudy):
+   - Grass Mean Temp: 15.13 °C, Mean Vapor Pressure: 12.20 hPa
+   - Concrete Mean Temp: 15.67 °C, Mean Vapor Pressure: 12.20 hPa
+3. Mid Period (Clear & Fixed):
+   - Grass Mean Temp: 17.57 °C, Mean Vapor Pressure: 13.28 hPa
+   - Concrete Mean Temp: 17.03 °C, Mean Vapor Pressure: 12.67 hPa
+4. Late Period (Post-Move):
+   - Grass Mean Temp: 21.43 °C, Mean Vapor Pressure: 13.53 hPa
+   - Concrete Mean Temp: 20.76 °C, Mean Vapor Pressure: 13.11 hPa
+
 Hypothesis Test Results:
 Overall Paired T-statistic (Vapor Pressure): 11.6710
 Overall P-value: 2.9298e-28

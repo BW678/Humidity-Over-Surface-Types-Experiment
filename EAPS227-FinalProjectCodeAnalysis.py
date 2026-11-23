@@ -142,6 +142,24 @@ start_time = combined_clean_df.index.min()
 end_time = combined_clean_df.index.max()
 total_duration = end_time - start_time
 
+# Find averages
+def get_period_stats(df):
+    if len(df) > 1:
+        vp_A = saturation_vapor_pressure(df['Dewpoint_Grass'].values * units.degC).to('hPa').magnitude
+        vp_B = saturation_vapor_pressure(df['Dewpoint_Concrete'].values * units.degC).to('hPa').magnitude
+        return {
+            'mean_temp_grass': df['Temp_Grass'].mean(),
+            'mean_vp_grass': vp_A.mean(),
+            'mean_temp_concrete': df['Temp_Concrete'].mean(),
+            'mean_vp_concrete': vp_B.mean()
+        }
+    return {k: float('nan') for k in ['mean_temp_grass', 'mean_vp_grass', 'mean_temp_concrete', 'mean_vp_concrete']}
+
+stats_no_sun = get_period_stats(df_no_sun)
+stats_early = get_period_stats(df_early)
+stats_mid = get_period_stats(df_mid)
+stats_late = get_period_stats(df_late)
+
 # Output to text file for organization
 with open(txt_file_output, 'w') as f:
     f.write("EAPS 227 Post-Analysis Results\n\n")
@@ -150,6 +168,23 @@ with open(txt_file_output, 'w') as f:
     f.write(f"Dataset Start (UTC): {start_time}\n")
     f.write(f"Dataset End (UTC): {end_time}\n")
     f.write(f"Total Dataset Duration: {total_duration}\n\n")
+
+    f.write("Period Averages (Temperature & Vapor Pressure):\n")
+    f.write(f"1. No Sun Period:\n")
+    f.write(f"   - Grass Mean Temp: {stats_no_sun['mean_temp_grass']:.2f} °C, Mean Vapor Pressure: {stats_no_sun['mean_vp_grass']:.2f} hPa\n")
+    f.write(f"   - Concrete Mean Temp: {stats_no_sun['mean_temp_concrete']:.2f} °C, Mean Vapor Pressure: {stats_no_sun['mean_vp_concrete']:.2f} hPa\n")
+    
+    f.write(f"2. Early Period (Cloudy):\n")
+    f.write(f"   - Grass Mean Temp: {stats_early['mean_temp_grass']:.2f} °C, Mean Vapor Pressure: {stats_early['mean_vp_grass']:.2f} hPa\n")
+    f.write(f"   - Concrete Mean Temp: {stats_early['mean_temp_concrete']:.2f} °C, Mean Vapor Pressure: {stats_early['mean_vp_concrete']:.2f} hPa\n")
+
+    f.write(f"3. Mid Period (Clear & Fixed):\n")
+    f.write(f"   - Grass Mean Temp: {stats_mid['mean_temp_grass']:.2f} °C, Mean Vapor Pressure: {stats_mid['mean_vp_grass']:.2f} hPa\n")
+    f.write(f"   - Concrete Mean Temp: {stats_mid['mean_temp_concrete']:.2f} °C, Mean Vapor Pressure: {stats_mid['mean_vp_concrete']:.2f} hPa\n")
+
+    f.write(f"4. Late Period (Post-Move):\n")
+    f.write(f"   - Grass Mean Temp: {stats_late['mean_temp_grass']:.2f} °C, Mean Vapor Pressure: {stats_late['mean_vp_grass']:.2f} hPa\n")
+    f.write(f"   - Concrete Mean Temp: {stats_late['mean_temp_concrete']:.2f} °C, Mean Vapor Pressure: {stats_late['mean_vp_concrete']:.2f} hPa\n\n")
 
     f.write("Hypothesis Test Results:\n")
     f.write(f"Overall Paired T-statistic (Vapor Pressure): {t_stat:.4f}\n")
